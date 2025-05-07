@@ -27,6 +27,10 @@ func UpdateAlbum(id int64, album models.Album) (int64, error) {
 	return repositories.UpdateAlbum(id, album)
 }
 
+func DeleteAlbum(id int64) (int64, error) {
+	return repositories.DeleteAlbum(id)
+}
+
 func ConvertToDTO(album models.Album) models.AlbumDTO {
 	return models.AlbumDTO{
 		ID:     strconv.FormatInt(album.ID, 10),

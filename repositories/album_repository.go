@@ -82,3 +82,11 @@ func UpdateAlbum(id int64, alb models.Album) (int64, error) {
 	}
 	return id, nil
 }
+
+func DeleteAlbum(id int64) (int64, error) {
+	_, err := database.DB.Exec("DELETE FROM album WHERE id = ?", id)
+	if err != nil {
+		return 0, fmt.Errorf("DeleteAlbum %d: %v", id, err)
+	}
+	return id, nil
+}

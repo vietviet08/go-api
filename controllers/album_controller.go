@@ -112,7 +112,7 @@ func UpdateAlbum(c *gin.Context) {
 		return
 	}
 
-	c.IndentedJSON(http.StatusCreated, gin.H{
+	c.IndentedJSON(http.StatusOK, gin.H{
 		"id":     albumID,
 		"title":  album.Title,
 		"artist": album.Artist,
@@ -122,4 +122,19 @@ func UpdateAlbum(c *gin.Context) {
 }
 
 func DeleteAlbum(c *gin.Context) {
+	id := c.Param("id")
+	idInt, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "Invalid album ID"})
+		return
+	}
+
+	albumID, err := services.DeleteAlbum(idInt)
+	if err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": "Failed to delete album"})
+		return
+	}
+
+	c.IndentedJSON(http.StatusNoContent, gin.H{"message": "Album deleted successfully ", "id": albumID})
+
 }

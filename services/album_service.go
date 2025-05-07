@@ -1,0 +1,37 @@
+package services
+
+import (
+	"strconv"
+
+	"vietquoc/connect-db/models"
+	"vietquoc/connect-db/repositories"
+)
+
+func GetAllAlbums() ([]models.Album, error) {
+	return repositories.GetAllAlbums()
+}
+
+func GetAlbumByID(id int64) (models.Album, error) {
+	return repositories.GetAlbumByID(id)
+}
+
+func AddAlbum(album models.Album) (int64, error) {
+	return repositories.AddAlbum(album)
+}
+
+func ConvertToDTO(album models.Album) models.AlbumDTO {
+	return models.AlbumDTO{
+		ID:     strconv.FormatInt(album.ID, 10),
+		Title:  album.Title,
+		Artist: album.Artist,
+		Price:  float32(album.Price),
+	}
+}
+
+func ConvertToDTOs(albums []models.Album) []models.AlbumDTO {
+	dtos := make([]models.AlbumDTO, len(albums))
+	for i, album := range albums {
+		dtos[i] = ConvertToDTO(album)
+	}
+	return dtos
+}

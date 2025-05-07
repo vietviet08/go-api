@@ -11,6 +11,20 @@ import (
 )
 
 func GetAlbums(c *gin.Context) {
+	artistName := c.Query("name")
+
+	if artistName != "" {
+		albums, err := services.GetAlbumsByArtist(artistName)
+		if err != nil {
+			c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": "Failed to get albums by artist"})
+			return
+		}
+
+		albumDTOs := services.ConvertToDTOs(albums)
+		c.IndentedJSON(http.StatusOK, albumDTOs)
+		return
+	}
+
 	albums, err := services.GetAllAlbums()
 	if err != nil {
 		c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": "Failed to get albums"})

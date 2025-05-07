@@ -11,6 +11,10 @@ func GetAllAlbums() ([]models.Album, error) {
 	return repositories.GetAllAlbums()
 }
 
+func GetAlbumsByArtist(artistName string) ([]models.Album, error) {
+	return repositories.GetAlbumsByArtist(artistName)
+}
+
 func GetAlbumByID(id int64) (models.Album, error) {
 	return repositories.GetAlbumByID(id)
 }

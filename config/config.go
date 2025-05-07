@@ -21,7 +21,7 @@ type DBConfig struct {
 func GetConfig() Config {
 	return Config{
 		Server: ServerConfig{
-			Host: "localhost",
+			Host: "",
 			Port: "8080",
 		},
 		DB: DBConfig{

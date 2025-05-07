@@ -18,19 +18,34 @@ func InitDB() {
 
 	appConfig := config.GetConfig()
 
-	cfg.User = os.Getenv("DBUSER")
+	cfg.User = os.Getenv("DB_USER")
 	if cfg.User == "" {
 		cfg.User = appConfig.DB.User
 	}
 
-	cfg.Passwd = os.Getenv("DBPASS")
+	cfg.Passwd = os.Getenv("DB_PASS")
 	if cfg.Passwd == "" {
 		cfg.Passwd = appConfig.DB.Password
 	}
 
+	dbHost := os.Getenv("DB_HOST")
+	if dbHost == "" {
+		dbHost = appConfig.DB.Host
+	}
+
+	dbPort := os.Getenv("DB_PORT")
+	if dbPort == "" {
+		dbPort = appConfig.DB.Port
+	}
+
+	dbName := os.Getenv("DB_NAME")
+	if dbName == "" {
+		dbName = appConfig.DB.DBName
+	}
+
 	cfg.Net = "tcp"
-	cfg.Addr = fmt.Sprintf("%s:%s", appConfig.DB.Host, appConfig.DB.Port)
-	cfg.DBName = appConfig.DB.DBName
+	cfg.Addr = fmt.Sprintf("%s:%s", dbHost, dbPort)
+	cfg.DBName = dbName
 
 	var err error
 	DB, err = sql.Open("mysql", cfg.FormatDSN())

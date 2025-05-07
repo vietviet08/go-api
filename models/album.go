@@ -1,6 +1,5 @@
 package models
 
-// Album represents album data stored in the database
 type Album struct {
 	ID     int64
 	Title  string
@@ -8,7 +7,6 @@ type Album struct {
 	Price  float32
 }
 
-// AlbumDTO is the data transfer object for Album
 type AlbumDTO struct {
 	ID     string  `json:"id"`
 	Title  string  `json:"title"`

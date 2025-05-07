@@ -74,3 +74,11 @@ func AddAlbum(alb models.Album) (int64, error) {
 	}
 	return id, nil
 }
+
+func UpdateAlbum(id int64, alb models.Album) (int64, error) {
+	_, err := database.DB.Exec("UPDATE album SET title = ?, artist = ?, price = ? WHERE id = ?", alb.Title, alb.Artist, alb.Price, id)
+	if err != nil {
+		return 0, fmt.Errorf("UpdateAlbum %d: %v", id, err)
+	}
+	return id, nil
+}

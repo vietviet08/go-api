@@ -80,3 +80,46 @@ func CreateAlbum(c *gin.Context) {
 		"price":  newAlbumDTO.Price,
 	})
 }
+
+func UpdateAlbum(c *gin.Context) {
+	id := c.Param("id")
+	idInt, err := strconv.ParseInt(id, 10, 64)
+	if err != nil {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "Invalid album ID"})
+		return
+	}
+
+	album, err := services.GetAlbumByID(idInt)
+	if err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": "Failed to get album"})
+		return
+	}
+
+	var newAlbumDTO models.AlbumDTO
+
+	if err := c.BindJSON(&newAlbumDTO); err != nil {
+		c.IndentedJSON(http.StatusBadRequest, gin.H{"message": "Invalid album data"})
+		return
+	}
+
+	album.Title = newAlbumDTO.Title
+	album.Artist = newAlbumDTO.Artist
+	album.Price = float32(newAlbumDTO.Price)
+
+	albumID, err := services.UpdateAlbum(idInt, album)
+	if err != nil {
+		c.IndentedJSON(http.StatusInternalServerError, gin.H{"message": "Failed to update album"})
+		return
+	}
+
+	c.IndentedJSON(http.StatusCreated, gin.H{
+		"id":     albumID,
+		"title":  album.Title,
+		"artist": album.Artist,
+		"price":  album.Price,
+	})
+
+}
+
+func DeleteAlbum(c *gin.Context) {
+}

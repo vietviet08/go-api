@@ -23,12 +23,16 @@ func AddAlbum(album models.Album) (int64, error) {
 	return repositories.AddAlbum(album)
 }
 
+func UpdateAlbum(id int64, album models.Album) (int64, error) {
+	return repositories.UpdateAlbum(id, album)
+}
+
 func ConvertToDTO(album models.Album) models.AlbumDTO {
 	return models.AlbumDTO{
 		ID:     strconv.FormatInt(album.ID, 10),
 		Title:  album.Title,
 		Artist: album.Artist,
-		Price:  float32(album.Price),
+		Price:  float64(album.Price),
 	}
 }
 
